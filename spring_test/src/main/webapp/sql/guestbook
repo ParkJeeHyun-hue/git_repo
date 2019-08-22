@@ -1,0 +1,21 @@
+--방명록 테이블 생성
+create table guestbook(
+    seq number not null,--글번호
+    name varchar2(30) not null,--작성자
+email varchar2(100) ,--이메일
+title varchar2(50) not null,--제목
+content varchar2(400) not null,--내용
+logtime date default sysdate--작성일
+);
+--테이블보기
+select * from guestbook;
+--시퀀스객체 생성
+create sequence seq_guestbook nocache nocycle;
+insert into guestbook values(seq_guestbook.nextval,'박지현','jhp@naver.com','내일은','웃으리',sysdate);
+--10개씩 끊어서 보여주기
+select * from (select rownum rn, tt.*from
+(select * from guestbook order by seq desc)tt) where rn>=1 and rn<=10;
+--갯수
+select count(*) as count from guestbook;
+--커밋
+commit;
